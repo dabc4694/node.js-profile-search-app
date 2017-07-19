@@ -16,7 +16,7 @@ function printMessage(username, badges, points) {
 
 //printMessage("Darshan", 300, 20000);
 function getProfile(username) {
-    https.get(`https://teamtreehouse.com/${username}.json`, response => {
+    const request = https.get(`https://eteamtreehouse.com/${username}.json`, response => {
         //console.log(response.statusCode);
         let body = ""
         response.on('data', data => {
@@ -31,6 +31,9 @@ function getProfile(username) {
 
             printMessage(username, profile.badges.length, profile.points.JavaScript);
         });
+    });
+    request.on('error', error => {
+        console.log("Problem with : " + error.message);
     });
 }
 //getProfile("chalkers");
