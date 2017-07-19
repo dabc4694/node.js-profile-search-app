@@ -25,15 +25,20 @@ function getProfile(username) {
             });
 
             response.on('end', () => {
-                const profile = JSON.parse(body);
-                // console.log(username);
-                // console.log(profile.badges.length);
-                // console.log(profile.points.JavaScript);
+                try {
+                    const profile = JSON.parse(body);
+                    // console.log(username);
+                    // console.log(profile.badges.length);
+                    // console.log(profile.points.JavaScript);
 
-                printMessage(username, profile.badges.length, profile.points.JavaScript);
+                    printMessage(username, profile.badges.length, profile.points.JavaScript);
+
+                } catch (error) {
+                    console.error("User detials for " + username + " not found.");
+                }
             });
-
         });
+        
         request.on('error', error => {
             console.log("Problem with : " + error.message);
         });
