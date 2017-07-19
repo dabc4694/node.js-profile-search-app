@@ -4,7 +4,7 @@ const https = require('https');
 const username = "darshanshah2";
 
 //print the output
-function printMessage(username, badges, points){
+function printMessage(username, badges, points) {
 
     console.log("\nThe username is: " + username + "\n");
     console.log("Total badge(s) : " + badges + "\n");
@@ -12,20 +12,22 @@ function printMessage(username, badges, points){
 }
 
 //printMessage("Darshan", 300, 20000);
+function getProfile(username) {
+    https.get(`https://teamtreehouse.com/${username}.json`, response => {
+        //console.log(response.statusCode);
+        let body = ""
+        response.on('data', data => {
+            body += data.toString();
+        });
 
-https.get(`https://teamtreehouse.com/${username}.json`, response => {
-    //console.log(response.statusCode);
-    let body = ""
-    response.on('data', data => {
-        body += data.toString();
+        response.on('end', () => {
+            const profile = JSON.parse(body);
+            // console.log(username);
+            // console.log(profile.badges.length);
+            // console.log(profile.points.JavaScript);
+
+            printMessage(username, profile.badges.length, profile.points.JavaScript);
+        });
     });
-
-    response.on('end', () => {
-        const profile = JSON.parse(body);
-        // console.log(username);
-        // console.log(profile.badges.length);
-        // console.log(profile.points.JavaScript);
-
-        printMessage(username, profile.badges.length, profile.points.JavaScript);
-    });
-});
+}
+getProfile("chalkers");
