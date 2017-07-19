@@ -1,14 +1,17 @@
 //Problem: using the username we have to print out  the total badges and js points
 //Solution: print out the username and total badges and points earned
 const https = require('https');
-const username = "darshanshah2";
-
+//const username = "darshanshah2";
+//const users = ["darshanshah2", "chalkers","alenaholligan", "davemcfarland"];
+const users = process.argv.slice(2);
 //print the output
 function printMessage(username, badges, points) {
 
+    console.log("\n----------------------------------------------------------");
     console.log("\nThe username is: " + username + "\n");
     console.log("Total badge(s) : " + badges + "\n");
     console.log("Points earned in Javascript : " + points + "\n");
+    console.log("----------------------------------------------------------");
 }
 
 //printMessage("Darshan", 300, 20000);
@@ -30,4 +33,6 @@ function getProfile(username) {
         });
     });
 }
-getProfile("chalkers");
+//getProfile("chalkers");
+
+users.forEach(getProfile);
