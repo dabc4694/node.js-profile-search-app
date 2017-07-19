@@ -16,22 +16,35 @@ function printMessage(username, badges, points) {
 
 //printMessage("Darshan", 300, 20000);
 function getProfile(username) {
-    https.get(`https://teamtreehouse.com/${username}.json`, response => {
-        //console.log(response.statusCode);
-        let body = ""
-        response.on('data', data => {
-            body += data.toString();
-        });
+    try {
+        const request = https.get(`https://teamtreehouse.com/${username}.json`, response => {
+            //console.log(response.statusCode);
+            let body = ""
+            response.on('data', data => {
+                body += data.toString();
+            });
 
-        response.on('end', () => {
-            const profile = JSON.parse(body);
-            // console.log(username);
-            // console.log(profile.badges.length);
-            // console.log(profile.points.JavaScript);
+            response.on('end', () => {
+                try {
+                    const profile = JSON.parse(body);
+                    // console.log(username);
+                    // console.log(profile.badges.length);
+                    // console.log(profile.points.JavaScript);
 
-            printMessage(username, profile.badges.length, profile.points.JavaScript);
+                    printMessage(username, profile.badges.length, profile.points.JavaScript);
+
+                } catch (error) {
+                    console.error("User detials for " + username + " not found.");
+                }
+            });
         });
-    });
+        
+        request.on('error', error => {
+            console.log("Problem with : " + error.message);
+        });
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 //getProfile("chalkers");
 
